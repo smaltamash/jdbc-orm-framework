@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 public class JdbcOrmFramework implements DBController {
 	public String connectivity="";
@@ -44,10 +45,18 @@ public class JdbcOrmFramework implements DBController {
 	 * This is the select() method that performs select opertaions
 	 *
 	 */
-	public ResultSet select(String columns, String tblName) throws SQLException {
+	public ArrayList<Object> select(String columns, String tblName) throws SQLException {
 		stmt=conn.createStatement();
 		rs=stmt.executeQuery("select "+columns+" from "+tblName);
-		return rs;
+		ArrayList<Object> list=new ArrayList<Object>();
+		while(rs.next()) {
+			list.add(rs.getString(1));
+			list.add(rs.getInt(2));
+			list.add(rs.getInt(3));
+			list.add(rs.getString(4));
+			list.add(rs.getString(5));
+		}
+		return list;
 	}
 	@Override
 	/**
